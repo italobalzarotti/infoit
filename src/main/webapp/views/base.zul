@@ -1,0 +1,5 @@
+<zk xmlns:n="native">
+    <div sclass="base">    
+    	<label value="BASE"/>
+    </div>
+</zk>
