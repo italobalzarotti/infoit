@@ -1,8 +1,9 @@
 <zk xmlns:n="native">
-	<div class="container vh-100 d-flex justify-content-center align-items-center">
+	<div id="div_login" class="container vh-100 d-flex justify-content-center align-items-center" use="com.italoweb.infoit.Login">
 	    <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
-	        <h3 class="text-center mb-4">Iniciar sesión</h3>
-	        <form>
+	    	<image class="text-center logo" src="/resources/base/images/logo2.png" width="150px"/>
+	        <label class="text-center mb-4 h3" value="Iniciar sesión"></label>
+	        <div>
 	            <div class="mb-3">
 	                <label value="Usuario" class="form-label"></label>
 	                <textbox class="form-control" id="usuario" placeholder="Ingresa tu usuario" />
@@ -20,14 +21,13 @@
 	
 
 	            <div class="d-grid">
-	                <button class="btn btn-primary" label="Ingresar"></button>
+	                <button class="btn btn-primary" label="Ingresar" onClick="div_login.beginSession()"></button>
 	            </div>
 	
 	            <div class="text-center mt-3">
 	                <a href="#" label="¿Olvidaste tu contraseña?"></a>
 	            </div>
-	        </form>
+	        </div>
 	    </div>
 	</div>
-
 </zk>

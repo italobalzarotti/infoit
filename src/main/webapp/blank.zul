@@ -1,5 +1,12 @@
 <zk xmlns:n="native">
-    <div sclass="blank">    
-    	<label value="Pagina Blanca 404"></label>
-    </div>
+    <window width="100%" height="100%">
+        <div class="container-fluid d-flex justify-content-center align-items-center vh-100">
+            <n:div class="card text-center shadow-lg p-4" style="width: 40rem;">
+                <n:div class="card-body">
+                    <n:h1 class="card-title text-danger display-4">ERROR 404</n:h1>
+                    <n:p class="card-text fs-4">Página no existente</n:p>
+                </n:div>
+            </n:div>
+        </div>
+    </window>
 </zk>

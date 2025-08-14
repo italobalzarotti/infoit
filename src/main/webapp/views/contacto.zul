@@ -1,0 +1,9 @@
+<zk xmlns:n="native">
+    <div class="container-fluid">
+    	<div class="card">
+    		<div class="card-body">
+    			<n:h1 class="card-title text-danger display-4">Contacto</n:h1>
+       		</div>
+    	</div>
+   	</div>
+</zk>

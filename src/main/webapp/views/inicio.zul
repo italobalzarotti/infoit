@@ -1,0 +1,18 @@
+<zk xmlns:n="native">
+	<?script src="https://code.jquery.com/jquery-3.1.0.js"?>
+<?script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"?>
+<?script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"?>
+<?script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"?>
+<?script src="/resources/base/treeSortable/treeSortable.js"?>
+    <div class="container-fluid">
+    	<div class="card">
+    		<div class="card-body">
+    			<n:h1 class="card-title text-danger display-4">Inicio</n:h1>
+    			<div id="left-tree" class="tree left-tree"></div>
+       		</div>
+    	</div>
+   	</div>
+   	<script>
+
+	</script>
+</zk>

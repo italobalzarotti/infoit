@@ -34,12 +34,18 @@ body {
 }
 
 /* ===== Contenedor del menú ===== */
-.menu-content {
+/* .menu-content {
   position: relative!important;
   height: 100%!important;
   width: 100%!important;
-  margin-top: 40px!important;
-  overflow: hidden!important; /* Oculta niveles inactivos */
+  margin-top: 1px!important;
+  overflow: hidden!important; Oculta niveles inactivos
+} */
+
+.menu-content {
+  position: relative!important;
+  width: 100%!important;
+  margin-top: 1px!important;
 }
 
 /* ===== Lista de items ===== */
@@ -253,7 +259,6 @@ button:focus, button:active {
 /*======================================================MAIN*/
 @font-face {
   font-family: 'Poppins';
-  src: url('ubuntu.otf');
 }
 *{
     font-family: 'Poppins', sans-serif;
@@ -524,7 +529,6 @@ input[type="checkbox"]:checked{
 }
 
 .z-a {
-	src: url('ubuntu.otf')!important;
 	font-family: "Poppins", sans-serif !important;
 }
 
