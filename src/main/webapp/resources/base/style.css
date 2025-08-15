@@ -13,12 +13,16 @@ body {
     padding: 0!important;
 }
 
+.navbar {
+    background: var(--color-navbar) !important;
+}
+
 /* ===== Sidebar ===== */
 .sidebar {
   position: fixed!important;
   height: 100%!important;
   width: 260px!important;
-  background: #fff!important;
+  background: var(--backg-sidebar) !important;
   padding: 15px!important;
   z-index: 99!important;
 }
@@ -29,7 +33,7 @@ body {
 }
 
 .sidebar a {
-  color: #11101d!important;
+  color: var(--color-item-menu) !important;
   text-decoration: none!important;
 }
 
@@ -58,7 +62,7 @@ body {
 
 /* ===== Título del menú ===== */
 .menu-title {
-  color: #4070f4!important;
+  color: var(--color-item-menu) !important;
   font-size: 14px!important;
   padding: 15px 20px!important;
   border-radius: 12px!important;
@@ -77,14 +81,15 @@ body {
 .item a:hover,
 .submenu-item:hover,
 .submenu .menu-title:hover {
-  background: rgba(246, 245, 244);
+  background: var(--hover-menu) !important;
+  color: var(--hover-color-menu) !important;
 }
 
 .submenu-item {
   display: flex!important;
   justify-content: space-between!important;
   align-items: center!important;
-  color: #11101d!important;
+  color: var(--color-item-menu) !important;
   cursor: pointer!important;
 }
 
@@ -95,7 +100,7 @@ body {
   left: 100%!important; /* Cada submenú empieza fuera de pantalla */
   width: 100%!important;
   height: 100%!important;
-  background: #fff!important;
+  background: var(--backg-sidebar) !important;
   transition: left 0.3s ease!important; /* Animación tipo slide */
 }
 
@@ -120,11 +125,13 @@ body {
 
 .navbar {
   position: fixed!important;
-  color: #fff!important;
+  color: var(--border-navbar)!important;
   padding: 15px 20px!important;
   font-size: 25px!important;
-  background: #4070f4!important;
+  background: var(--color-navbar) !important;
   cursor: pointer!important;
+  border-bottom: 1px solid var(--border-navbar) !important;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2) !important;
 }
 
 .navbar .sidebar-close {
@@ -519,7 +526,7 @@ input[type="checkbox"]:checked{
 }
 
 .z-tab-selected {
-    border-bottom: 2px solid var(--color-primario) !important;
+    border-bottom: 2px solid var(--color-item-menu) !important;
 }
 
 .z-menu-text, .z-menuitem-text {

@@ -18,8 +18,11 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Span;
+import org.zkoss.zul.Style;
 import org.zkoss.zul.Window;
 
+import com.italoweb.infoit.core.apariencia.Apariencia;
+import com.italoweb.infoit.core.apariencia.AparienciaManager;
 import com.italoweb.infoit.core.navegation.MenuItem;
 import com.italoweb.infoit.core.navegation.MenuManager;
 import com.italoweb.infoit.core.navegation.NavigationMdel;
@@ -33,6 +36,7 @@ public class Base extends Window implements AfterCompose {
 	private Include include_main_root;
 	private Index father = (Index) Executions.getCurrent().getArg().get("FATHER");
 	private MenuManager manager = new MenuManager();
+	private AparienciaManager aparienciaManager = new AparienciaManager();
 
 	@Override
 	public void afterCompose() {
@@ -48,12 +52,55 @@ public class Base extends Window implements AfterCompose {
 	}
 	
 	private void loadComponents() {
+		this.setupLook();
 		this.div_user.addEventListener(Events.ON_CLICK, event -> closeSession());
+	}
+	
+	private void setupLook() {
+        /*Styles*/
+        String colorPrimario = "#3f8f71";
+        boolean degradadoNavbar = true;
+        String colorPrimarioDegr = "#41d59d";
+        String colorSecundarioDegr = "#3f8f71";
+        String colorNavbar = degradadoNavbar
+                ? String.format("linear-gradient(-45deg, %s 0%%, %s 100%%)", colorPrimarioDegr, colorSecundarioDegr)
+                : colorPrimario;
+        String borderNavbar = "black";
+        String backgroundSidebar = "#ffff";
+        String itemMenu = "#ffff";
+        String hoverMenu = "#ffff";
+        String hoverColorMenu = "#ffff";
+        List<Apariencia> list = this.aparienciaManager.getApariencia();
+        if (list.size() > 0){
+            colorPrimario = list.get(0).getColorPrimary();
+            colorPrimarioDegr = list.get(0).getGradientStartNavbar();
+            colorSecundarioDegr = list.get(0).getGradientEndNavbar();
+            colorNavbar = degradadoNavbar
+                    ? String.format("linear-gradient(-45deg, %s 0%%, %s 100%%)", colorPrimarioDegr, colorSecundarioDegr)
+                    : colorPrimario;
+            borderNavbar = list.get(0).getBorderNavbar();
+            backgroundSidebar = list.get(0).getBackgroundSidebar();
+            itemMenu = list.get(0).getColorItemMenu();
+            hoverMenu = list.get(0).getHoverMenu();
+            hoverColorMenu = list.get(0).getHoverColorMenu();
+        }
+        StringBuilder css = new StringBuilder();
+        css.append(":root {\n");
+        css.append(String.format("    --color-navbar: %s !important;\n", colorNavbar));
+        css.append(String.format("    --border-navbar: %s !important;\n", borderNavbar));
+        css.append(String.format("    --color-primario: %s;\n", colorPrimario));
+        css.append(String.format("    --backg-sidebar: %s;\n", backgroundSidebar));
+        css.append(String.format("    --color-item-menu: %s;\n", itemMenu));
+        css.append(String.format("    --hover-menu: %s;\n", hoverMenu));
+        css.append(String.format("    --hover-color-menu: %s;\n", hoverColorMenu));
+        css.append("}\n\n");
+        Style style = new Style();
+        style.setContent(css.toString());
+        this.appendChild(style);
 	}
 	
 	private void closeSession() {
         Session zkSession = Sessions.getCurrent();
-        // Limpiar sesión y redirigir
         zkSession.removeAttribute("usuario");
         zkSession.invalidate();
         Executions.sendRedirect("/");

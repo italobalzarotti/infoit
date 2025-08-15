@@ -27,7 +27,9 @@ import com.italoweb.infoit.util.DialogUtil;
 public class AparienciaController extends Window implements AfterCompose {
 
     private static final long serialVersionUID = 5203021735260439522L;
-	private Textbox colorPrimary, gradientStart, gradientEnd, name, description, logo;
+	private Textbox colorPrimary, gradientStartNavbar, gradientEndNavbar, borderNavbar;
+	private Textbox menuBackgSidebar, menuItemColor, menuItemHover, menuItemColorHover;
+	private Textbox name, description, logo;
     private AparienciaManager manager;
     private Image logoPreview;
     private Fileupload fileUploadLogo;
@@ -61,11 +63,11 @@ public class AparienciaController extends Window implements AfterCompose {
             this.manager.saveApariencia(listapariencia);
         });
 
-        gradientStart.addEventListener(Events.ON_CHANGE, event -> {
+        gradientStartNavbar.addEventListener(Events.ON_CHANGE, event -> {
             List<Apariencia> listapariencia = this.manager.getApariencia();
             Apariencia apariencia = new Apariencia();
             apariencia = listapariencia.get(0);
-            apariencia.setGradientStartNavbar(this.gradientStart.getValue());
+            apariencia.setGradientStartNavbar(this.gradientStartNavbar.getValue());
 
             if (listapariencia.size() > 0){
                 listapariencia.set(0 , apariencia);
@@ -75,11 +77,81 @@ public class AparienciaController extends Window implements AfterCompose {
             this.manager.saveApariencia(listapariencia);
         });
 
-        gradientEnd.addEventListener(Events.ON_CHANGE, event -> {
+        gradientEndNavbar.addEventListener(Events.ON_CHANGE, event -> {
             List<Apariencia> listapariencia = this.manager.getApariencia();
             Apariencia apariencia = new Apariencia();
             apariencia = listapariencia.get(0);
-            apariencia.setGradientEndNavbar(this.gradientEnd.getValue());
+            apariencia.setGradientEndNavbar(this.gradientEndNavbar.getValue());
+            if (listapariencia.size() > 0){
+                listapariencia.set(0 , apariencia);
+            }else {
+                listapariencia.add(apariencia);
+            }
+
+            this.manager.saveApariencia(listapariencia);
+        });
+        
+        borderNavbar.addEventListener(Events.ON_CHANGE, event -> {
+            List<Apariencia> listapariencia = this.manager.getApariencia();
+            Apariencia apariencia = new Apariencia();
+            apariencia = listapariencia.get(0);
+            apariencia.setBorderNavbar(this.borderNavbar.getValue());
+            if (listapariencia.size() > 0){
+                listapariencia.set(0 , apariencia);
+            }else {
+                listapariencia.add(apariencia);
+            }
+
+            this.manager.saveApariencia(listapariencia);
+        });
+        
+        menuBackgSidebar.addEventListener(Events.ON_CHANGE, event -> {
+            List<Apariencia> listapariencia = this.manager.getApariencia();
+            Apariencia apariencia = new Apariencia();
+            apariencia = listapariencia.get(0);
+            apariencia.setBackgroundSidebar(this.menuBackgSidebar.getValue());
+            if (listapariencia.size() > 0){
+                listapariencia.set(0 , apariencia);
+            }else {
+                listapariencia.add(apariencia);
+            }
+
+            this.manager.saveApariencia(listapariencia);
+        });
+        
+        menuItemColor.addEventListener(Events.ON_CHANGE, event -> {
+            List<Apariencia> listapariencia = this.manager.getApariencia();
+            Apariencia apariencia = new Apariencia();
+            apariencia = listapariencia.get(0);
+            apariencia.setColorItemMenu(menuItemColor.getValue());
+            if (listapariencia.size() > 0){
+                listapariencia.set(0 , apariencia);
+            }else {
+                listapariencia.add(apariencia);
+            }
+
+            this.manager.saveApariencia(listapariencia);
+        });
+        
+        menuItemHover.addEventListener(Events.ON_CHANGE, event -> {
+            List<Apariencia> listapariencia = this.manager.getApariencia();
+            Apariencia apariencia = new Apariencia();
+            apariencia = listapariencia.get(0);
+            apariencia.setHoverMenu(menuItemHover.getValue());
+            if (listapariencia.size() > 0){
+                listapariencia.set(0 , apariencia);
+            }else {
+                listapariencia.add(apariencia);
+            }
+
+            this.manager.saveApariencia(listapariencia);
+        });
+        
+        menuItemColorHover.addEventListener(Events.ON_CHANGE, event -> {
+            List<Apariencia> listapariencia = this.manager.getApariencia();
+            Apariencia apariencia = new Apariencia();
+            apariencia = listapariencia.get(0);
+            apariencia.setHoverColorMenu(menuItemColorHover.getValue());
             if (listapariencia.size() > 0){
                 listapariencia.set(0 , apariencia);
             }else {
@@ -112,8 +184,13 @@ public class AparienciaController extends Window implements AfterCompose {
         if (apariencia != null)
             if (apariencia.size() > 0){
                 this.colorPrimary.setValue(apariencia.get(0).getColorPrimary());
-                this.gradientStart.setValue(apariencia.get(0).getGradientStartNavbar());
-                this.gradientEnd.setValue(apariencia.get(0).getGradientEndNavbar());
+                this.gradientStartNavbar.setValue(apariencia.get(0).getGradientStartNavbar());
+                this.gradientEndNavbar.setValue(apariencia.get(0).getGradientEndNavbar());
+                this.borderNavbar.setValue(apariencia.get(0).getBorderNavbar());
+                this.menuBackgSidebar.setValue(apariencia.get(0).getBackgroundSidebar());
+                this.menuItemColor.setValue(apariencia.get(0).getColorItemMenu());
+                this.menuItemHover.setValue(apariencia.get(0).getHoverMenu());
+                this.menuItemColorHover.setValue(apariencia.get(0).getHoverColorMenu());
                 this.name.setValue(apariencia.get(0).getName());
                 this.description.setValue(apariencia.get(0).getDescription());
                 this.logo.setValue(apariencia.get(0).getLogo());

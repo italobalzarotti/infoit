@@ -5,6 +5,11 @@ public class Apariencia {
     private String colorPrimary;
     private String gradientStartNavbar;
     private String gradientEndNavbar;
+    private String borderNavbar;
+    private String backgroundSidebar;
+    private String colorItemMenu;
+    private String hoverMenu;
+    private String hoverColorMenu;
     private String name;
     private String description;
     private String logo;
@@ -73,5 +78,45 @@ public class Apariencia {
 
 	public void setSizeLogo(int sizeLogo) {
 		this.sizeLogo = sizeLogo;
+	}
+
+	public String getBackgroundSidebar() {
+		return backgroundSidebar;
+	}
+
+	public void setBackgroundSidebar(String backgroundSidebar) {
+		this.backgroundSidebar = backgroundSidebar;
+	}
+
+	public String getHoverMenu() {
+		return hoverMenu;
+	}
+
+	public void setHoverMenu(String hoverMenu) {
+		this.hoverMenu = hoverMenu;
+	}
+
+	public String getBorderNavbar() {
+		return borderNavbar;
+	}
+
+	public void setBorderNavbar(String borderNavbar) {
+		this.borderNavbar = borderNavbar;
+	}
+
+	public String getColorItemMenu() {
+		return colorItemMenu;
+	}
+
+	public void setColorItemMenu(String colorItemMenu) {
+		this.colorItemMenu = colorItemMenu;
+	}
+
+	public String getHoverColorMenu() {
+		return hoverColorMenu;
+	}
+
+	public void setHoverColorMenu(String hoverColorMenu) {
+		this.hoverColorMenu = hoverColorMenu;
 	}
 }
