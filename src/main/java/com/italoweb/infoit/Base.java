@@ -1,31 +1,33 @@
 package com.italoweb.infoit;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.nio.file.Files;
+import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.BookmarkEvent;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.ext.AfterCompose;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zk.ui.util.ConventionWires;
-import org.zkoss.zul.A;
 import org.zkoss.zul.Div;
+import org.zkoss.zul.Image;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.Span;
 import org.zkoss.zul.Style;
 import org.zkoss.zul.Window;
 
 import com.italoweb.infoit.core.apariencia.Apariencia;
 import com.italoweb.infoit.core.apariencia.AparienciaManager;
-import com.italoweb.infoit.core.navegation.MenuItem;
-import com.italoweb.infoit.core.navegation.MenuManager;
+import com.italoweb.infoit.core.navegation.MenuComponent;
 import com.italoweb.infoit.core.navegation.NavigationMdel;
+import com.italoweb.infoit.core.util.AppProperties;
 import com.italoweb.infoit.core.util.HEXUtil;
 
 public class Base extends Window implements AfterCompose {
@@ -35,8 +37,11 @@ public class Base extends Window implements AfterCompose {
 	private Div div_user;
 	private Include include_main_root;
 	private Index father = (Index) Executions.getCurrent().getArg().get("FATHER");
-	private MenuManager manager = new MenuManager();
 	private AparienciaManager aparienciaManager = new AparienciaManager();
+    private static final String LOGO_DIR = AppProperties.get("logo.dir");
+    private static final String LOGO_FILENAME = "logo_app.jpg";
+    private Image logo_app;
+    private Label lbl_title;
 
 	@Override
 	public void afterCompose() {
@@ -47,37 +52,42 @@ public class Base extends Window implements AfterCompose {
 	      String newBookmark = event.getBookmark();
 	      loadBookmarkChange(newBookmark);
 		});
-		this.buildMenu();
 		this.loadPages(NavigationMdel.INDEX_PAGE);
 	}
 	
 	private void loadComponents() {
+		MenuComponent menu = new MenuComponent();
+		this.lbl_title.setValue(aparienciaManager.getApariencia().getFirst().getName());
+		this.menu_content.appendChild(menu);
+		this.cargarLogoActual();
 		this.setupLook();
 		this.div_user.addEventListener(Events.ON_CLICK, event -> closeSession());
 	}
 	
 	private void setupLook() {
         /*Styles*/
-        String colorPrimario = "#3f8f71";
+        String colorPrimario = "#0065b3";
         boolean degradadoNavbar = true;
-        String colorPrimarioDegr = "#41d59d";
-        String colorSecundarioDegr = "#3f8f71";
-        String colorNavbar = degradadoNavbar
+        String colorPrimarioDegr = "#0065b3";
+        String colorSecundarioDegr = "#00518f";
+        String backgNavbar = degradadoNavbar
                 ? String.format("linear-gradient(-45deg, %s 0%%, %s 100%%)", colorPrimarioDegr, colorSecundarioDegr)
                 : colorPrimario;
-        String borderNavbar = "black";
-        String backgroundSidebar = "#ffff";
-        String itemMenu = "#ffff";
-        String hoverMenu = "#ffff";
-        String hoverColorMenu = "#ffff";
+        String colorNavar = "#ffffff";
+        String borderNavbar = "ffffff";
+        String backgroundSidebar = "#00518f";
+        String itemMenu = "#ffffff";
+        String hoverMenu = "#ffffff";
+        String hoverColorMenu = "#00518f";
         List<Apariencia> list = this.aparienciaManager.getApariencia();
         if (list.size() > 0){
             colorPrimario = list.get(0).getColorPrimary();
             colorPrimarioDegr = list.get(0).getGradientStartNavbar();
             colorSecundarioDegr = list.get(0).getGradientEndNavbar();
-            colorNavbar = degradadoNavbar
+            backgNavbar = degradadoNavbar
                     ? String.format("linear-gradient(-45deg, %s 0%%, %s 100%%)", colorPrimarioDegr, colorSecundarioDegr)
                     : colorPrimario;
+            colorNavar = list.get(0).getColorNavbar();
             borderNavbar = list.get(0).getBorderNavbar();
             backgroundSidebar = list.get(0).getBackgroundSidebar();
             itemMenu = list.get(0).getColorItemMenu();
@@ -86,7 +96,8 @@ public class Base extends Window implements AfterCompose {
         }
         StringBuilder css = new StringBuilder();
         css.append(":root {\n");
-        css.append(String.format("    --color-navbar: %s !important;\n", colorNavbar));
+        css.append(String.format("    --backg-navbar: %s !important;\n", backgNavbar));
+        css.append(String.format("    --color-navbar: %s !important;\n", colorNavar));
         css.append(String.format("    --border-navbar: %s !important;\n", borderNavbar));
         css.append(String.format("    --color-primario: %s;\n", colorPrimario));
         css.append(String.format("    --backg-sidebar: %s;\n", backgroundSidebar));
@@ -126,109 +137,44 @@ public class Base extends Window implements AfterCompose {
 	}
 	
     private void loadPages(String src) {
+        Clients.evalJavaScript("	var sidebarFather = document.querySelector(\".sidebar-father\");\n"
+        		+ "	var sidebarDisabled = document.querySelector(\".disabled_sidebar\");\n"
+        		+ "	\n"
+        		+ "	sidebarFather.classList.remove(\"sidebar-on-open\");	\n"
+        		+ "	sidebarFather.classList.add(\"sidebar-on-close\");\n"
+        		+ "	sidebarDisabled.classList.remove(\"sidebardisabled-on-open\");\n"
+        		+ "	sidebarDisabled.classList.add(\"sidebardisabled-on-close\");");
         if (this.include_main_root.getChildPage() != null) {
             this.include_main_root.getChildPage().removeComponents();
             this.include_main_root.setSrc(null);
         }
         this.include_main_root.setSrc(src);
 	}
-
-	private List<MenuItem> buildMenuData() {
-        List<MenuItem> menuItems = new ArrayList<>();
-        menuItems = manager.getMenu();
-        menuItems.sort(Comparator.comparingInt(MenuItem::getOrder));
-        return menuItems;
+    
+    private void cargarLogoActual() {
+        File file = new File(LOGO_DIR, LOGO_FILENAME);
+        if (file.exists()) {
+            try {
+                byte[] data = Files.readAllBytes(file.toPath());
+                mostrarPreview(data);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
-	
-	private void buildMenu() {
-	    Div menuContent = new Div();
-	    menuContent.setSclass("menu-content-base");
-
-	    Div menuItemsContainer = new Div();
-	    menuItemsContainer.setSclass("menu-items");
-
-	    // Título del menú
-	    Div menuTitle = new Div();
-	    menuTitle.setSclass("menu-title");
-	    menuTitle.appendChild(new Label("Menu"));
-	    menuItemsContainer.appendChild(menuTitle);
-
-	    // Construir menú
-	    for (MenuItem item : this.buildMenuData()) {
-	        menuItemsContainer.appendChild(createMenuItem(item));
-	    }
-
-	    menuContent.appendChild(menuItemsContainer);
-	    menu_content.appendChild(menuContent); // o el contenedor donde quieras agregarlo
-	}
-
-	private Component createMenuItem(MenuItem item) {
-	    Div itemDiv = new Div();
-	    itemDiv.setSclass("item");
-
-	    if (item.getSubMenu() == null || item.getSubMenu().isEmpty()) {
-	        // Es un enlace simple
-	        A link = new A();
-	        link.setHref(item.getHref() != null ? item.getHref() : "#");
-	        if (item.getIconClass() != null) {
-	            link.setIconSclass(item.getIconClass());
-	        }
-	        Span span = new Span();
-	        span.setStyle("margin:4px");
-	        span.appendChild(new Label(item.getTitle()));
-	        link.appendChild(span);
-
-	        itemDiv.appendChild(link);
-	    } else {
-	        // Es un submenú
-	        Div submenuItem = new Div();
-	        submenuItem.setSclass("submenu-item");
-
-	        if (item.getIconClass() != null) {
-	            Div iconDiv = new Div();
-	            iconDiv.setSclass(item.getIconClass());
-	            Span span = new Span();
-	            span.setStyle("margin:4px");
-	            span.appendChild(new Label(item.getTitle()));
-	            iconDiv.appendChild(span);
-	            submenuItem.appendChild(iconDiv);
-	        } else {
-	            Span span = new Span();
-	            span.setStyle("margin:4px");
-	            span.appendChild(new Label(item.getTitle()));
-	            submenuItem.appendChild(span);
-	        }
-
-	        Div chevron = new Div();
-	        chevron.setSclass("fa-solid fa-chevron-right");
-	        submenuItem.appendChild(chevron);
-
-	        itemDiv.appendChild(submenuItem);
-
-	        // Contenedor del submenú
-	        Div submenuContainer = new Div();
-	        submenuContainer.setSclass("menu-items submenu");
-
-	        // Título del submenú
-	        Div submenuTitle = new Div();
-	        submenuTitle.setSclass("menu-title");
-
-	        Div chevronLeft = new Div();
-	        chevronLeft.setSclass("fa-solid fa-chevron-left");
-	        submenuTitle.appendChild(chevronLeft);
-	        submenuTitle.appendChild(new Label(item.getTitle()));
-
-	        submenuContainer.appendChild(submenuTitle);
-
-	        // Agregar hijos recursivamente
-	        for (MenuItem sub : item.getSubMenu()) {
-	            submenuContainer.appendChild(createMenuItem(sub));
-	        }
-
-	        itemDiv.appendChild(submenuContainer);
-	    }
-
-	    return itemDiv;
-	}
-	
+    
+    private void mostrarPreview(byte[] data) {
+        String base64 = "data:image/jpeg;base64," +
+                Base64.getEncoder().encodeToString(data);
+        List<Apariencia> apariencia = aparienciaManager.getApariencia();
+        String widthLogo = "100px";
+        if (apariencia.size() > 0) {
+        	int size = apariencia.get(0).getSizeLogo();
+			if (Objects.nonNull(size)) {
+				widthLogo = size+"px";
+			}
+		}
+        this.logo_app.setSrc(base64);
+        this.logo_app.setWidth(widthLogo);
+    }
 }

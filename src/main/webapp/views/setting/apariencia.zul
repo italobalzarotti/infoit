@@ -44,15 +44,19 @@
                 </div>
                 <separator sclass="mb-4"/>
                 <label sclass="h5" value="Navbar Color"></label>
-                <div sclass="col-md-4">
+                <div sclass="col-md-3">
                     <label class="color-label">Degradado Inicio</label>
                     <textbox id="gradientStartNavbar" value="" />
                 </div>
-                <div sclass="col-md-4">
+                <div sclass="col-md-3">
                     <label class="color-label">Degradado Fin</label>
                     <textbox id="gradientEndNavbar" value="" />
                 </div>
-                <div sclass="col-md-4">
+                <div sclass="col-md-3">
+                    <label class="color-label">Color NavBar</label>
+                    <textbox id="colorNavbar" value="" />
+                </div>
+                <div sclass="col-md-3">
                     <label class="color-label">Border</label>
                     <textbox id="borderNavbar" value="" />
                 </div>
@@ -120,7 +124,7 @@
         <script type="text/javascript">
             zk.afterMount(function () {
                 // Transforma los textbox a color pickers HTML5
-                ['colorPrimary', 'gradientStartNavbar', 'gradientEndNavbar', 'borderNavbar', 'menuBackgSidebar', 'menuItemColor', 'menuItemHover', 'menuItemColorHover'].forEach(function (id) {
+                ['colorPrimary', 'gradientStartNavbar', 'gradientEndNavbar', 'colorNavbar', 'borderNavbar', 'menuBackgSidebar', 'menuItemColor', 'menuItemHover', 'menuItemColorHover'].forEach(function (id) {
                     var el = zk.Widget.$('$' + id).$n();
                     el.setAttribute("type", "color");
                 });

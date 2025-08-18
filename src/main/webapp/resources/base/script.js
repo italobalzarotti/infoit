@@ -1,11 +1,31 @@
 zk.afterMount(function () {
+	const sidebarFather = document.querySelector(".sidebar-father");
     const sidebar = document.querySelector(".sidebar");
-    const sidebarClose = document.querySelector(".sidebar-close");
+    const sidebarClose = document.querySelector(".sidebar-btn-close");
+	const sidebarOpen = document.querySelector(".sidebar-btn-open");
+	const sidebarDisabled = document.querySelector(".disabled_sidebar");
     const menu = document.querySelector(".menu-content");
-
+	
     sidebarClose.addEventListener("click", () => {
-        sidebar.classList.toggle("close");
+		sidebarFather.classList.remove("sidebar-on-open");	
+        sidebarFather.classList.add("sidebar-on-close");
+		sidebarDisabled.classList.remove("sidebardisabled-on-open");
+		sidebarDisabled.classList.add("sidebardisabled-on-close");
     });
+	
+	sidebarOpen.addEventListener("click", () => {
+		sidebarFather.classList.remove("sidebar-on-close");
+	    sidebarFather.classList.add("sidebar-on-open");
+		sidebarDisabled.classList.remove("sidebardisabled-on-close");
+		sidebarDisabled.classList.add("sidebardisabled-on-open");
+	});
+	
+	sidebarDisabled.addEventListener("click", () => {
+		sidebarFather.classList.remove("sidebar-on-open");	
+	    sidebarFather.classList.add("sidebar-on-close");
+		sidebarDisabled.classList.remove("sidebardisabled-on-open");
+		sidebarDisabled.classList.add("sidebardisabled-on-close");
+	});
 
     menu.addEventListener("click", (e) => {
         const submenuItem = e.target.closest(".submenu-item");

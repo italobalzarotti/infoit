@@ -5,6 +5,7 @@ public class Apariencia {
     private String colorPrimary;
     private String gradientStartNavbar;
     private String gradientEndNavbar;
+    private String colorNavbar;
     private String borderNavbar;
     private String backgroundSidebar;
     private String colorItemMenu;
@@ -118,5 +119,13 @@ public class Apariencia {
 
 	public void setHoverColorMenu(String hoverColorMenu) {
 		this.hoverColorMenu = hoverColorMenu;
+	}
+
+	public String getColorNavbar() {
+		return colorNavbar;
+	}
+
+	public void setColorNavbar(String colorNavbar) {
+		this.colorNavbar = colorNavbar;
 	}
 }

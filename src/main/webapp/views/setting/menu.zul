@@ -2,6 +2,68 @@
 <zk xmlns:h="http://www.zkoss.org/2005/zk/native"
     xmlns:w="http://www.zkoss.org/2005/zk/client">
     <div id="win_menu" sclass="container-fluid" use="com.italoweb.infoit.controller.setting.MenuController">
+		<style>
+			.sidebar.collapsed {
+			    margin-left: -264px;
+			}
+			
+			.sidebar-nav {
+			    padding: 0;
+			}
+			
+			.sidebar-header {
+			    color: var(--color-primario);
+			    font-size: .75rem !important;
+			    padding: 1.5rem 1.5rem .375rem !important;
+			}
+			
+			a.sidebar-link {
+			    padding: .625rem 1.625rem !important;
+			    color: #11101D !important;
+			    position: relative !important;
+			    display: block !important;
+			    font-size: .90rem !important;
+			    text-decoration: none!important;
+			}
+			
+			a.sidebar-link i {
+			    margin-right: 2px; /* Ajusta según sea necesario */
+			}
+			
+			
+			a.sidebar-link:active, a.sidebar-link:focus {
+			    color: var(--color-primario) !important;
+			}
+			
+			a.sidebar-link.active {
+			/*    background-color: var(--color-primario) !important;
+			    color: white !important;
+			    border-radius: 5px !important;*/
+			    color: var(--color-primario) !important;
+			}
+			
+			.sidebar-link[data-bs-toggle="collapse"]::after {
+			    border: solid;
+			    border-width: 0 .075rem .075rem 0;
+			    content: "";
+			    display: inline-block;
+			    padding: 2px;
+			    position: absolute;
+			    right: 1.5rem;
+			    top: 1.4rem;
+			    transform: rotate(-135deg);
+			    transition: all .2s ease-out;
+			}
+			
+			.sidebar-link[data-bs-toggle="collapse"].collapsed::after {
+			    transform: rotate(45deg);
+			    transition: all .2s ease-out;
+			}
+			
+			.sidebar-pages {
+			    padding-left: 20px !important;
+			}
+	    </style>
         <div class="row">
             <!-- Bloque izquierdo: sidebar de navegación -->
             <div id="sidebarNav" class="col-md-4 border-end pe-3">
